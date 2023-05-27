@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libonig-dev \
     libxml2-dev \
     zip \
+    unzip \
+    git \
     curl
 
 # Clear cache
@@ -21,10 +23,10 @@ RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copy setting file
-COPY ./php.ini /usr/local/etc/php/php.ini
+COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 
 # Set working directory
-WORKDIR /var/www/html
+WORKDIR /var/www/
 
 CMD ["php-fpm"]
 
