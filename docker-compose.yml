@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ./docker/php/Dockerfile
     volumes:
-      - ./src/app:/var/www/html/
+      - ./src/app:/var/www/
     environment:
       - APP_DEBUG=${APP_DEBUG:-true}
       - APP_ENV=${APP_ENV:-local}
@@ -32,7 +32,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./src:/var/www/html/
+      - ./src:/var/www/
     depends_on:
       - app
     networks:
