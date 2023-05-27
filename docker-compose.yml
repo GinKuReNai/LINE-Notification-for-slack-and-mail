@@ -1,0 +1,64 @@
+version: '3'
+services:
+  app:
+    container_name: dev.line_api.app
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - ./src/app:/var/www/html/
+    environment:
+      - APP_DEBUG=${APP_DEBUG:-true}
+      - APP_ENV=${APP_ENV:-local}
+      - APP_URL=${APP_URL:-http://localhost}
+      - LOG_CHANNEL=${LOG_CHANNEL:-stderr}
+      - LOG_STDERR_FORMATTER=${LOG_STDERR_FORMATTER:-Monolog\Formatter\JsonFormatter}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_DATABASE=${DB_DATABASE:-line-api}
+      - DB_USERNAME=${DB_USERNAME:-user}
+      - DB_PASSWORD=${DB_PASSWORD:-password}
+    tty: true
+    networks:
+      - line_api_network
+    expose:
+      - 9000
+
+  web:
+    container_name: dev.line_api.web
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./src:/var/www/html/
+    depends_on:
+      - app
+    networks:
+      - line_api_network
+  
+  db:
+    container_name: dev.line_api.mysql
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-line-api}
+      - MYSQL_USER=${MYSQL_USER:-user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-password}
+      - TZ=${TZ:-Asia/Tokyo}
+    volumes:
+      - line_api_database:/var/lib/mysql
+    tty: true
+    expose:
+      - 3306
+    networks:
+      - line_api_network
+
+networks:
+  line_api_network:
+    driver: bridge
+
+volumes:
+  line_api_database:
+    driver: local
