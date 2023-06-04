@@ -18,6 +18,8 @@ services:
       - DB_DATABASE=${DB_DATABASE:-line-api}
       - DB_USERNAME=${DB_USERNAME:-user}
       - DB_PASSWORD=${DB_PASSWORD:-password}
+    env_file:
+      - .env.local
     tty: true
     networks:
       - line_api_network
@@ -47,6 +49,8 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-password}
       - TZ=${TZ:-Asia/Tokyo}
+    env_file:
+      - .env.local
     volumes:
       - line_api_database:/var/lib/mysql
     tty: true
