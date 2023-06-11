@@ -2,24 +2,19 @@
 <ruleset name="PSR12">
     <description>Coding Standards on Laravel</description>
 
-    <rule ref="PSR12"></rule>
-
-    <!-- 変数名をキャメルケースに（Laravel固有ルール） -->
-    <rule ref="Squiz.NamingConventions.ValidVariableName.NotCamelCaps"/>
+    <rule ref="PSR12">
+        <!-- 変数名をキャメルケースに（Laravel固有ルール） -->
+        <exclude name="PSR12.Properties.VarDeclaration.NotCamelCaps"/>
+    </rule>
 
     <!-- 拡張子が php のものにだけ適用 -->
-    <arg name="extensions" value="php">
+    <arg name="extensions" value="php"/>
 
     <!-- 出力に色を適用 -->
     <arg name="colors" />
 
     <!-- オプション p:進捗表示  s:エラー表示時にルールを表示 -->
     <arg value="ps" />
-
-    <!-- testsディレクトリ配下はメソッド名のキャメルケースチェックを除外する -->
-    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
-        <exclude-pattern>*/tests/*</exclude-pattern>
-    </rule>
 
     <!-- testsディレクトリ配下はメソッド名のキャメルケースチェックを除外する -->
     <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
