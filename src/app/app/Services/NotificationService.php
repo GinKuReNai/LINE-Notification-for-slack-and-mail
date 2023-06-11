@@ -26,7 +26,7 @@ class NotificationService
      * @param string $userId
      * @return void
      */
-    public function sendNotificationByUserId($userId)
+    public function sendNotificationByUserId(string $userId)
     {
         $this->lineBotService->sendLineMessageByUserId($this->message, $userId);
     }
